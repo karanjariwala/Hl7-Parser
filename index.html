@@ -1,40 +1,59 @@
 <html>
+
 <body>
-<br><br> <br>
-Enter Segment:<input id="Segment" type="text" name="Segment">
-Enter Offset:<input id ="offset" type="number" name="offset">
-<br><br><br>
-<textarea id="hl7" rows="20" cols="50" placeholder="Enter Hl7 Message">
-</textarea>
-<br>
-<button id="btn">Parse</button>
-
-<script type="text/javascript">
-		btn.onclick =function()
-	{   var arr ="";
-		var segment = document.getElementById('Segment');
-	var offset = document.getElementById('offset');
-	var Hl7 = document.getElementById('hl7');
-	var btn =document.getElementById('btn')
-
-		
-		// console.log(segment.value,offset.value,hl7.value);
-		var Hl7_arr = hl7.value.split("|");
-		console.log(Hl7_arr);
-		
-		for(var i=0;i<Hl7_arr.length;i++)
-		{ console.log(hl7_arr[i]);
-			if(Hl7_arr[i]==segment.value)
-			{
-				arr +=Hl7_arr[i+offset];
-				
-			}
-		}
-		console.log(arr)
-	}
-	
-
-</script>
-
+    <br>
+    <br>
+    <br> Enter Segment:
+    <input id="Segment" type="text" name="Segment"> Enter Offset:
+    <input id="offset" type="number" name="offset">
+    <br>
+    <br>
+    <br>
+    <textarea id="hl7" rows="20" cols="50" placeholder="Enter Hl7 Message"> </textarea>
+    <br>
+    <button id="btn">Parse</button>
+    <br>
+    <br>
+    <ol id="para"></ol>
+    <script type="text/javascript">
+        btn.onclick = function () {
+            
+            var arr = "";
+            var segment = document.getElementById('Segment');
+            var offset = document.getElementById('offset');
+            var Hl7 = document.getElementById('hl7');
+            var btn = document.getElementById('btn')
+            console.log(offset.value);
+            var offsetNumber = Number(offset.value);
+           // Create a <li> node
+            //
+            // console.log(segment.value,offset.value,hl7.value);
+            //            Hl7= Hl7.value.replace(/[^a-zA-Z0-9]/g, '|');
+            console.log(Hl7.value = Hl7.value.replace(/[^a-zA-Z|.0-9\^~\\&/ ]/g, ""));
+            var Hl7_arr = Hl7.value.split("|");
+            var p;
+            var indices = [];
+            var array = Hl7_arr;
+            var element = segment.value;
+            var idx = array.indexOf(element);
+            while (idx != -1) {
+                indices.push(idx);
+                idx = array.indexOf(element, idx + 1);
+            }
+            indices = indices.map(function (x) {
+                return x + Number(offset.value)
+            });
+            console.log(indices);
+            indices.forEach(function (currentValue) {
+                    console.log(Hl7_arr[currentValue]);
+                      var node = document.createElement("LI");
+                    var textnode = document.createTextNode(Hl7_arr[currentValue]); // Create a text node
+                    node.appendChild(textnode); // Append the text to <li>
+                    document.getElementById("para").appendChild(node);
+                })
+                // [0, 2, 4]
+        }
+    </script>
 </body>
+
 </html>
